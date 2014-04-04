@@ -1,0 +1,2 @@
+"VERSION = \"x.x.x\"": "(VERSION = \")(.*)(\")"
+"VERSION = 'x.x.x'": "(VERSION = ')(.*)(')"

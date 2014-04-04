@@ -1,0 +1,6 @@
+ruby:
+  - "lib/**/version.rb"
+
+all:
+  - "version.*"
+  - "VERSION.*"

@@ -1,0 +1,29 @@
+"1.0.0":
+  format: "major.minor.patch"
+  action:
+    major: int
+    minor: int
+    patch: int
+
+"1.0.0-a":
+  format: "major.minor.patch-status.candidate"
+  action:
+    major: int
+    minor: int
+    patch: int
+    status: "a,b,rc,r"
+    candidate:
+      type: int
+      optional: true
+
+
+"1.0.0-alpha":
+    format: "major.minor.patch-status.candidate"
+    action:
+      major: int
+      minor: int
+      patch: int
+      status: "alpha,beta,rc,release"
+      candidate:
+        type: int
+        optional: true
