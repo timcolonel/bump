@@ -14,6 +14,8 @@ module Bump
 
       attr_accessor :local_config
 
+      attr_accessor :version_str
+
       def data_dir
         "#{File.dirname(__FILE__)}/../../data"
       end
@@ -33,6 +35,10 @@ module Bump
         if @version_regex.nil?
           load_version_regex
         end
+
+        load_version_string
+
+        load_version_format
       end
 
       def load_local_config
@@ -69,6 +75,25 @@ module Bump
         end
 
         raise Bump::Error, "Unable to find the version variable in the file #{@version_filename} (Please specify in the config)"
+      end
+
+      def load_version_string
+        content = File.open(@version_filename).read
+        @version_string =  content.scan(@version_regex)[0][1]
+      end
+
+      def load_version_format
+        formats = Bump::Config.load_file(File.join(Bump::Config.data_dir, 'version_conventions.yml'))
+        formats.each do |format_name, format_hash|
+          format = Bump::VersionFormat.new(format_hash)
+          if @version_string.match(format.to_regex)
+            puts "Using version convention #{format_name}"
+            @version_format = format
+            return
+          end
+        end
+
+        raise Bump::Error, "Format not found for version #{@version}(Please specify in config)"
       end
 
       def load_file(filename)

@@ -18,7 +18,7 @@
 
 
 "1.0.0-alpha":
-    format: "major.minor.patch_status.candidate"
+    format: "major.minor.patch-status.candidate"
     action:
       major: int
       minor: int
@@ -30,7 +30,7 @@
 
 
 "1.0.0a":
-  format: "major.minor.patch-status.candidate"
+  format: "major.minor.patch_status.candidate"
   action:
     major: int
     minor: int

@@ -1,5 +1,6 @@
 require_relative 'bump/config'
 require_relative 'bump/error'
+require_relative 'bump/version_format'
 
 module Bump
   class << self
