@@ -30,6 +30,9 @@ module Bump
         if @version_filename.nil?
           load_filename
         end
+        if @version_regex.nil?
+          load_version_regex
+        end
       end
 
       def load_local_config
@@ -45,14 +48,27 @@ module Bump
         languages = load_file(File.join(data_dir, 'version_filenames.yml'))
         filenames = languages[@language] + languages['all']
         filenames.each do |filename|
-          puts 'Trying bullshit: '+ filename + ' -- ' + Dir.glob(filename).to_s
-          results = Dir.glob(filename).size > 0
+          results = Dir.glob(filename)
           if results.size > 0
-            puts "Using: #{result[0]}"
-            @version_filename = result[0]
+            puts "Using version file: #{results[0]}"
+            @version_filename = results[0]
+            return
           end
         end
-        puts 'noediojio'
+        raise Bump::Error, 'Unable to find the version file(Please specify in the config)'
+      end
+
+      def load_version_regex
+        content = File.open(@version_filename).read
+        load_file(File.join(data_dir, 'version_formats.yml')).each do |key, format|
+          if content.match(format)
+            puts "Using version format #{key}"
+            @version_regex = format
+            return
+          end
+        end
+
+        raise Bump::Error, "Unable to find the version variable in the file #{@version_filename} (Please specify in the config)"
       end
 
       def load_file(filename)

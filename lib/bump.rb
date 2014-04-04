@@ -1,4 +1,6 @@
 require_relative 'bump/config'
+require_relative 'bump/error'
+
 module Bump
   class << self
     def run
