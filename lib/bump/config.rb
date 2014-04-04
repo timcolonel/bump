@@ -63,7 +63,7 @@ module Bump
         load_file(File.join(data_dir, 'version_formats.yml')).each do |key, format|
           if content.match(format)
             puts "Using version format #{key}"
-            @version_regex = format
+            @version_regex = Regexp.new(format)
             return
           end
         end
