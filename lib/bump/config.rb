@@ -16,6 +16,8 @@ module Bump
 
       attr_accessor :version_str
 
+      attr_accessor :version_format
+
       def data_dir
         "#{File.dirname(__FILE__)}/../../data"
       end
@@ -85,7 +87,7 @@ module Bump
       def load_version_format
         formats = Bump::Config.load_file(File.join(Bump::Config.data_dir, 'version_conventions.yml'))
         formats.each do |format_name, format_hash|
-          format = Bump::VersionFormat.new(format_hash)
+          format = Bump::Version::Format.new(format_hash)
           if format.parse(@version_string)
             puts "Using version convention #{format_name}"
             @version_format = format
