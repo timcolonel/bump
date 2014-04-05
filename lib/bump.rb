@@ -49,4 +49,7 @@ module Bump
   end
 end
 
-Bump.run
+
+if __FILE__ == $0
+  Bump.run
+end

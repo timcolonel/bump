@@ -14,7 +14,7 @@ module Bump
 
       attr_accessor :local_config
 
-      attr_accessor :version_str
+      attr_accessor :version_string
 
       attr_accessor :version_format
 

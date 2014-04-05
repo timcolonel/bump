@@ -1,0 +1,11 @@
+- input: "1.0.0"
+  action: "patch"
+  goal: "1.0.1"
+
+- input: "1.0.0"
+  action: "minor"
+  goal: "1.1.0"
+
+- input: "1.0.0"
+  action: "major"
+  goal: "2.0.0"
