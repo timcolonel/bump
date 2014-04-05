@@ -1,27 +1,48 @@
 module Bump
   class VersionFormat
+    DELIMITER_REGEXP= /\.|_|-/
 
     def initialize(format)
       @format = format
+      @elements = []
+      @values = {}
+    end
+
+    def parse(version_str)
+      @version_str = version_str
+      return false unless @version_str.match(to_regex)
+      match
+      puts @values
+      true
+    end
+
+    def match
+      version_array = @version_str.split(DELIMITER_REGEXP)
+      format_array = @format['format'].split(DELIMITER_REGEXP)
+      version_array.each_with_index do |element_name, i|
+        format_name = format_array[i]
+        @values[format_name] = element_name
+      end
     end
 
     def to_regex
       string = @format['format']
       regex = ''
       while true
-        i = string.index(/\.|_|-/)
+        i = string.index(DELIMITER_REGEXP)
         if i == nil
           regex += get_element_regex(string)
           break
         else
           element_name = string[0...i]
+          @elements << element_name
           delimiter = string[i]
           regex += get_element_regex(element_name)
           regex += get_delimiter_regex(delimiter)
           string = string[i+1..-1]
         end
       end
-     regex
+      regex
     end
 
     def get_element_regex(element_name)

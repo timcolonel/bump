@@ -86,7 +86,7 @@ module Bump
         formats = Bump::Config.load_file(File.join(Bump::Config.data_dir, 'version_conventions.yml'))
         formats.each do |format_name, format_hash|
           format = Bump::VersionFormat.new(format_hash)
-          if @version_string.match(format.to_regex)
+          if format.parse(@version_string)
             puts "Using version convention #{format_name}"
             @version_format = format
             return
