@@ -1,3 +1,5 @@
+require 'fileutils'
+
 require_relative 'bump/config'
 require_relative 'bump/error'
 require_relative 'bump/version/format'
@@ -11,7 +13,7 @@ module Bump
       unless action.nil?
         case action
           when 'init'
-            puts 'NII'
+            init
           when 'current'
             current
           else
@@ -22,6 +24,12 @@ module Bump
       end
 
       #update_version('0.0.3')
+    end
+
+    #Copy the local config file to the root of the project
+    def init
+      FileUtils.cp File.join(Bump::Config.template_dir, Bump::Config::CONFIG_FILE), Bump::Config::CONFIG_FILE
+      puts "Local config file #{Bump::Config::CONFIG_FILE} created!"
     end
 
     #Show the current version

@@ -1,0 +1,18 @@
+#Bump config file
+
+#Specify the language of your application
+#language: ruby
+
+#Specify the config file location relative to the root
+#version_filename: "config.yml"
+
+#Specify how the config variable is put in the file
+#version_format:  "(VERSION = ')(.*)(')"
+
+#Spcify the convention you are using for version
+#version_convention: "1.0.0"
+
+
+
+#Define here custom conventions format(Look at the version_formats.yml for example)
+version_formats:

@@ -22,6 +22,10 @@ module Bump
         "#{File.dirname(__FILE__)}/../../data"
       end
 
+      def template_dir
+        "#{File.dirname(__FILE__)}/../../template"
+      end
+
       def load_config
         @language = nil
         @version_filename = nil
@@ -81,7 +85,7 @@ module Bump
 
       def load_version_string
         content = File.open(@version_filename).read
-        @version_string =  content.scan(@version_regex)[0][1]
+        @version_string = content.scan(@version_regex)[0][1]
       end
 
       def load_version_format
