@@ -1,4 +1,4 @@
-"1.0.0":
+1.0.0":
   format: "major.minor.patch"
   action:
     major: int

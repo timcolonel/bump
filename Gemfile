@@ -7,6 +7,4 @@ gem 'minitest'
 
 gem 'minitest-reporters'
 
-gem 'releasy', :github => 'timcolonel/releasy'
-
 gem 'coveralls'
