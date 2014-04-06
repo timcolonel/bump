@@ -38,10 +38,20 @@ module Bump
       def map
         version_array = @version_str.split(DELIMITER_REGEXP)
         format_array = @format['format'].split(DELIMITER_REGEXP)
-        version_array.each_with_index do |element_name, i|
-          format_name = format_array[i]
-          @actions[format_name].value = element_name
+        scan = @version_str.scan(Regexp.new(to_regex))[0]
+        puts 'Match: ' + scan.to_s
+        puts to_regex
+        scan.each_with_index do |value, i|
+          puts @elements.to_s
+          action = @elements[i*2]
+          puts 'FORM; ' + action.to_s + ' -- ' + i.to_s
+          action.value = value
         end
+
+        #version_array.each_with_index do |element_name, i|
+        #  format_name = format_array[i]
+        #  @actions[format_name].value = element_name
+        #end
       end
 
       def bump(action_name, operation = 1)
@@ -95,7 +105,7 @@ module Bump
           if i+1 < @elements.size
             unless i+2 < @elements.size and @elements[i+2].value.nil?
               delimiter = @elements[i+1]
-              output += delimiter
+              output += delimiter_to_s(delimiter)
             end
           end
           i += 2
@@ -117,9 +127,18 @@ module Bump
             raise Error, "Unkwown delimiter '#{delimiter}'"
         end
         if optional
-          output = "(#{output})?"
+          output = "#{output}?"
         end
         output
+      end
+
+      def delimiter_to_s(delimiter)
+        case delimiter
+          when '_'
+            ''
+          else
+            delimiter
+        end
       end
     end
   end

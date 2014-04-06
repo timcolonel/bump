@@ -13,18 +13,18 @@ module Bump
       end
 
       def to_regex
-        regex = ''
+        regex = nil
         case @type
           when 'int'
             regex = '[0-9]+'
           else
             regex = @type.split(',').join('|')
         end
-
+        regex = "(#{regex})"
         if optional?
-          regex = "(#{regex})?"
+          regex = "#{regex}?"
         end
-        "(#{regex})"
+        regex
       end
 
       def init(value)
@@ -46,13 +46,11 @@ module Bump
           when 'int'
             @value.to_i + operation
           else #(a,b,rc,r) format for example
-            puts 'OTHER'
             array = @type.split(',')
             if @value.nil?
               array[0]
             else
               i = array.index(@value)
-              puts array
               if i+1 < array.size
                 return array[i+1]
               else #Reach the end of possibilities
@@ -89,6 +87,10 @@ module Bump
           else #(a,b,rc,r) format for example
             @type.split(',')[0]
         end
+      end
+
+      def to_s
+        name
       end
     end
   end

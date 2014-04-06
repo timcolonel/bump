@@ -14,7 +14,8 @@ class BumpTest  < ActiveSupport::TestCase
       Bump::Config.version_string = hash['input']
       Bump::Config.load_version_format
       Bump::Config.version_format.bump(hash['action'])
-      assert hash['goal'] == Bump::Config.version_format.to_s, "Wrong bump expecting #{hash['goal']} but the output is #{Bump::Config.version_format}"
+      assert hash['goal'] == Bump::Config.version_format.to_s,
+             "Wrong bumping '#{hash['input']}' expecting '#{hash['goal']}' but the output is '#{Bump::Config.version_format}' using '#{hash['action']}'"
     end
   end
 end
