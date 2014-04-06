@@ -1,3 +1,13 @@
+PATH
+  remote: .
+  specs:
+    bumper (0.0.1)
+      activesupport
+      coveralls
+      minitest
+      minitest-reporters
+      rake
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -50,8 +60,4 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  activesupport
-  coveralls
-  minitest
-  minitest-reporters
-  rake
+  bumper!
