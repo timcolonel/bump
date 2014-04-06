@@ -51,7 +51,7 @@ module Bump
       def bump(action_name, operation = 1)
         action = @actions[action_name]
         if action.nil?
-          raise Error, "Error unknown action #{element_name}"
+          raise Error, "Error unknown action #{action_name}"
         end
         format_array = @format['format'].split(DELIMITER_REGEXP)
         format_array[format_array.index(action_name)+1..-1].each do |following_action_name|

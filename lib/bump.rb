@@ -8,7 +8,11 @@ require_relative 'bump/version/action'
 module Bump
   class << self
     def run
-      Bump::Config.load_config
+      begin
+        Bump::Config.load_config
+      rescue Bump::Error => e
+        puts e
+      end
       action = ARGV[0]
       unless action.nil?
         case action
@@ -44,9 +48,4 @@ module Bump
       end
     end
   end
-end
-
-
-if __FILE__ == $0
-  Bump.run
 end
