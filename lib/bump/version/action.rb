@@ -24,7 +24,7 @@ module Bump
         if optional?
           regex = "(#{regex})?"
         end
-        regex
+        "(#{regex})"
       end
 
       def init(value)
@@ -46,18 +46,19 @@ module Bump
           when 'int'
             @value.to_i + operation
           else #(a,b,rc,r) format for example
-            array = @type.split(',')[0]
+            puts 'OTHER'
+            array = @type.split(',')
             if @value.nil?
               array[0]
             else
               i = array.index(@value)
-              if i < array.size
-                array[i]
+              puts array
+              if i+1 < array.size
+                return array[i+1]
               else #Reach the end of possibilities
                 raise Error, "No more option to bump this action #{@name} with values #{@type}"
               end
             end
-
         end
       end
 

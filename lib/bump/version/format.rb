@@ -50,10 +50,8 @@ module Bump
           raise Error, "Error unknown action #{element_name}"
         end
         format_array = @format['format'].split(DELIMITER_REGEXP)
-        puts 'Bullshit: ' + format_array.index(action_name).to_s
         format_array[format_array.index(action_name)+1..-1].each do |following_action_name|
           following_action = @actions[following_action_name]
-          puts 'RESETING: ' + following_action_name
           following_action.reset
         end
 
@@ -75,8 +73,13 @@ module Bump
           action = @elements[i]
           regex += action.to_regex
           if i+1 < @elements.size
+            optional = false
+            if i+2 < @elements.size and @elements[i+2].optional?
+              optional = true
+            end
+
             delimiter = @elements[i+1]
-            regex += get_delimiter_regex(delimiter)
+            regex += get_delimiter_regex(delimiter, optional)
           end
           i += 2
         end
@@ -90,7 +93,7 @@ module Bump
           action = @elements[i]
           output += action.value.to_s
           if i+1 < @elements.size
-            unless i+2 < @elements.size and  @elements[i+2].value.nil?
+            unless i+2 < @elements.size and @elements[i+2].value.nil?
               delimiter = @elements[i+1]
               output += delimiter
             end
@@ -101,17 +104,22 @@ module Bump
       end
 
 
-      def get_delimiter_regex(delimiter)
+      def get_delimiter_regex(delimiter, optional = false)
+        output = ''
         case delimiter
           when '.'
-            '\.'
+            output = '\.'
           when '-'
-            '\-'
+            output = '\-'
           when '_'
-            ''
+            output = ''
           else
             raise Error, "Unkwown delimiter '#{delimiter}'"
         end
+        if optional
+          output = "(#{output})?"
+        end
+        output
       end
     end
   end
