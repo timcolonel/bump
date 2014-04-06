@@ -19,7 +19,8 @@ module Bump
           else
             Bump::Config.version_format.bump(action)
             update_version Bump::Config.version_format.to_s
-            puts "Bumped to version '#{Bump::Config.version_format}'"
+
+            puts "\nBumped to version '#{Bump::Config.version_format}'"
         end
 
       end
