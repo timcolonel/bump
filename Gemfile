@@ -6,3 +6,5 @@ gem 'activesupport'
 gem 'minitest'
 
 gem 'minitest-reporters'
+
+gem 'coveralls'

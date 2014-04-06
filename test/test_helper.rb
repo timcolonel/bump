@@ -5,4 +5,8 @@ require 'yaml'
 require 'minitest/reporters'
 require './lib/bump'
 
+require 'coveralls'
+Coveralls.wear!
+
+
 MiniTest::Reporters.use!
