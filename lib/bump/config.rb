@@ -32,9 +32,7 @@ module Bump
         @version_regex = nil
 
         load_local_config
-        if @language.nil?
-          @language = 'ruby'
-        end
+
         if @version_filename.nil?
           load_filename
         end
@@ -58,7 +56,12 @@ module Bump
 
       def load_filename
         languages = load_file(File.join(data_dir, 'version_filenames.yml'))
-        filenames = languages[@language] + languages['all']
+        if @language.nil?
+          filenames = languages.values.flatten
+        else
+          filenames = languages[@language] + languages['all']
+        end
+
         filenames.each do |filename|
           results = Dir.glob(filename)
           if results.size > 0
