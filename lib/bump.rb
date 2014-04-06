@@ -18,12 +18,11 @@ module Bump
             current
           else
             Bump::Config.version_format.bump(action)
-            puts Bump::Config.version_format
+            update_version Bump::Config.version_format.to_s
+            puts "Bumped to version '#{Bump::Config.version_format}'"
         end
 
       end
-
-      #update_version('0.0.3')
     end
 
     #Copy the local config file to the root of the project
@@ -37,11 +36,8 @@ module Bump
       puts Bump::Config.version_format
     end
 
-
     def update_version(new_version)
       change = File.open(Bump::Config.version_filename).read.gsub(Bump::Config.version_regex, '\1'+ new_version+'\3')
-
-
       File.open(Bump::Config.version_filename, 'w') do |file|
         file.write(change)
       end
