@@ -99,7 +99,7 @@ module Bump
           end
         end
 
-        raise Bump::Error, "Format not found for version #{@version}(Please specify in config)"
+        raise Bump::Error, "Format not found for version #{@version_string} (Please specify in config)"
       end
 
       def load_file(filename)

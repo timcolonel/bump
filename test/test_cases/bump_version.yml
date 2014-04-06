@@ -6,6 +6,23 @@
   action: "minor"
   goal: "1.1.0"
 
+- input: "1.0.3"
+  action: "minor"
+  goal: "1.1.0"
+
 - input: "1.0.0"
   action: "major"
   goal: "2.0.0"
+
+- input: "1.0.0"
+  action: "major"
+  goal: "2.0.0"
+
+- input: "1.2.7"
+  action: "major"
+  goal: "2.0.0"
+
+
+- input: "1.3.2-a"
+  action: "major"
+  goal: "2.0.0-a"

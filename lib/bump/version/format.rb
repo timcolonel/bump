@@ -6,8 +6,27 @@ module Bump
       def initialize(format)
         @format = format
         @actions = Bump::Version::Action.parse(@format['action'])
+        @elements= []
+        parse_format
       end
 
+      def parse_format
+        string = @format['format']
+        while true
+          i = string.index(DELIMITER_REGEXP)
+          if i == nil
+            @elements << @actions[string]
+            break
+          else
+            element_name = string[0...i]
+            delimiter = string[i]
+
+            @elements << @actions[element_name]
+            @elements << delimiter
+            string = string[i+1..-1]
+          end
+        end
+      end
 
       def parse(version_str)
         @version_str = version_str
@@ -30,6 +49,14 @@ module Bump
         if action.nil?
           raise Error, "Error unknown action #{element_name}"
         end
+        format_array = @format['format'].split(DELIMITER_REGEXP)
+        puts 'Bullshit: ' + format_array.index(action_name).to_s
+        format_array[format_array.index(action_name)+1..-1].each do |following_action_name|
+          following_action = @actions[following_action_name]
+          puts 'RESETING: ' + following_action_name
+          following_action.reset
+        end
+
         action.bump(operation)
       end
 
@@ -42,51 +69,37 @@ module Bump
       end
 
       def to_regex
-        string = @format['format']
         regex = ''
-        while true
-          i = string.index(DELIMITER_REGEXP)
-          if i == nil
-            regex += get_element_regex(string)
-            break
-          else
-            element_name = string[0...i]
-            delimiter = string[i]
-            regex += get_element_regex(element_name)
+        i = 0
+        while i < @elements.size
+          action = @elements[i]
+          regex += action.to_regex
+          if i+1 < @elements.size
+            delimiter = @elements[i+1]
             regex += get_delimiter_regex(delimiter)
-            string = string[i+1..-1]
           end
+          i += 2
         end
-        regex
+        "^#{regex}$"
       end
 
       def to_s
-        string = @format['format']
         output = ''
-        while true
-          i = string.index(DELIMITER_REGEXP)
-          if i == nil
-            output += @actions[string].value.to_s
-            break
-          else
-            element_name = string[0...i]
-            delimiter = string[i]
-            output += @actions[element_name].value.to_s
-            output += delimiter
-            string = string[i+1..-1]
+        i=0
+        while i < @elements.size
+          action = @elements[i]
+          output += action.value.to_s
+          if i+1 < @elements.size
+            unless i+2 < @elements.size and  @elements[i+2].value.nil?
+              delimiter = @elements[i+1]
+              output += delimiter
+            end
           end
+          i += 2
         end
         output
       end
 
-      def get_element_regex(element_name)
-        action = @actions[element_name]
-        type_regex = action.to_regex
-        if action.optional?
-          type_regex = "(#{type_regex})?"
-        end
-        type_regex
-      end
 
       def get_delimiter_regex(delimiter)
         case delimiter

@@ -13,12 +13,18 @@ module Bump
       end
 
       def to_regex
+        regex = ''
         case @type
           when 'int'
-            '[0-9]+'
+            regex = '[0-9]+'
           else
-            @type.split(',').join('|')
+            regex = @type.split(',').join('|')
         end
+
+        if optional?
+          regex = "(#{regex})?"
+        end
+        regex
       end
 
       def init(value)
@@ -27,7 +33,7 @@ module Bump
           @optional = false
         else
           @type = value['type']
-          @optional = !!element['optional']
+          @optional = !!value['optional']
         end
       end
 
@@ -65,6 +71,10 @@ module Bump
 
       def optional?
         @optional
+      end
+
+      def reset
+        @value = get_default_value
       end
 
       def get_default_value
