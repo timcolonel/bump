@@ -36,15 +36,9 @@ module Bump
 
       #Map values to the format
       def map
-        version_array = @version_str.split(DELIMITER_REGEXP)
-        format_array = @format['format'].split(DELIMITER_REGEXP)
         scan = @version_str.scan(Regexp.new(to_regex))[0]
-        puts 'Match: ' + scan.to_s
-        puts to_regex
         scan.each_with_index do |value, i|
-          puts @elements.to_s
           action = @elements[i*2]
-          puts 'FORM; ' + action.to_s + ' -- ' + i.to_s
           action.value = value
         end
 
